@@ -31,6 +31,8 @@ Crear la base y la tabla desde una consola de XAMPP:
 
 La configuración local utilizada es `127.0.0.1:3306`, usuario `root` y contraseña vacía, que es la configuración predeterminada de XAMPP. Si se configura una contraseña, actualizar [php-app/db.php](./php-app/db.php) y las credenciales JDBC de [jsp-app/registro.jsp](./jsp-app/registro.jsp). La aplicación PHP usa `mysqli` y consultas preparadas; JSP usa JDBC y `PreparedStatement`.
 
+En XAMPP, el driver JDBC instalado para Tomcat es `C:\xampp\tomcat\lib\mysql-connector-j-9.4.0.jar`. Después de agregar o cambiar este archivo se debe reiniciar Tomcat.
+
 ## Despliegue en el entorno indicado
 
 ### PHP con XAMPP/Apache en 8080
@@ -42,12 +44,22 @@ La configuración local utilizada es `127.0.0.1:3306`, usuario `root` y contrase
 
 ### JSP con Tomcat en 8081
 
-1. Instalar Java y Tomcat compatible con Jakarta Servlet 5 (Tomcat 10).
-2. Copiar `jsp-app` como `C:\apache-tomcat\webapps\registro-contacto` (o desplegar el ZIP/WAR con ese nombre).
+1. Este equipo utiliza Apache Tomcat 8.5.99 con la API `javax.servlet`.
+2. Copiar `jsp-app` como `C:\xampp\tomcat\webapps\registro-contacto` (o desplegar el ZIP/WAR con ese nombre).
 3. En `conf/server.xml`, confirmar el conector `<Connector port="8081" ... />`.
 4. Iniciar Tomcat y abrir `http://localhost:8081/registro-contacto/`.
 
-> `jsp-app` usa scriptlets (`<% %>`) para recorrer la sesión, tal como permite el enunciado. Incluye una función local de escape HTML equivalente a `c:out`. Para guardar en MySQL necesita el JAR `mysql-connector-j` en `TOMCAT_HOME/lib`. Está preparado para Tomcat 10/Jakarta.
+Si se inicia desde PowerShell y Tomcat no está registrado como servicio:
+
+```powershell
+$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-21.0.12.101-hotspot"
+$env:JRE_HOME = $env:JAVA_HOME
+$env:CATALINA_HOME = "C:\xampp\tomcat"
+$env:CATALINA_BASE = "C:\xampp\tomcat"
+& "C:\xampp\tomcat\bin\startup.bat"
+```
+
+> `jsp-app` usa scriptlets (`<% %>`) para recorrer la sesión, tal como permite el enunciado. Incluye una función local de escape HTML equivalente a `c:out`. Está adaptado a Tomcat 8.5 (`javax.servlet`). Para guardar en MySQL necesita el JAR `mysql-connector-j` en `TOMCAT_HOME/lib`.
 
 ## Flujo HTTP
 

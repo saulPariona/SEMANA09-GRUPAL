@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="jakarta.servlet.http.HttpServletResponse" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="javax.servlet.http.HttpServletResponse" %>
 <%!
     String escapeHtml(String value) {
         if (value == null) return "";
@@ -22,7 +22,7 @@
     if (!telefono.matches("^[0-9+()\\-\\s]{7,20}$")) errores.add("El teléfono no es válido.");
     if (mensaje.isEmpty() || mensaje.length() > 500) errores.add("El mensaje es obligatorio y no debe superar 500 caracteres.");
     if (!errores.isEmpty()) {
-        response.setStatus(HttpServletResponse.SC_UNPROCESSABLE_ENTITY);
+        response.setStatus(422);
 %><!doctype html><html lang="es"><head><meta charset="utf-8"><title>Datos inválidos</title><link rel="stylesheet" href="styles.css"></head>
 <body><main class="container"><h1>Datos inválidos</h1><ul class="error"><%
         for (String error : errores) {
