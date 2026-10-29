@@ -1,0 +1,15 @@
+CREATE DATABASE IF NOT EXISTS registro_contactos
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+USE registro_contactos;
+
+CREATE TABLE IF NOT EXISTS contactos (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(80) NOT NULL,
+    email VARCHAR(120) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    mensaje VARCHAR(500) NOT NULL,
+    registrado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
